@@ -3,6 +3,7 @@
 #![feature(iter_map_windows)]
 #![feature(pattern)]
 #![feature(iter_array_chunks)]
+#![feature(gen_blocks)]
 #![warn(clippy::pedantic)]
 #![allow(
     clippy::cast_possible_truncation,
@@ -20,7 +21,7 @@ mod common;
 mod day1;
 mod day2;
 mod day3;
-// mod day4;
+mod day4;
 // mod day5;
 // mod day6;
 // mod day7;
@@ -55,7 +56,7 @@ fn main() {
         Day::Combined(day1::main).run("day 1");
         Day::Combined(day2::main).run("day 2");
         Day::Combined(day3::main).run("day 3");
-        // Day::Combined(day4::main).run("day 4");
+        Day::Combined(day4::main).run("day 4");
         // Day::Combined(day5::main).run("day 5");
         // Day::Combined(day6::main).run("day 6");
         // Day::Combined(day7::main).run("day 7");

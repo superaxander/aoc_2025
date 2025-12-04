@@ -2,7 +2,6 @@
 
 use core::convert::AsRef;
 use core::result::Result::Ok;
-use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter};
 use std::fs::File;
 use std::hash::Hash;
@@ -13,6 +12,7 @@ use std::path::Path;
 use std::time::Instant;
 
 use anyhow::Result;
+use rustc_hash::FxHashMap;
 use tracing::{error, info};
 
 pub fn read_lines<P>(filename: P) -> Result<io::Lines<BufReader<File>>>
@@ -113,7 +113,7 @@ pub struct InfiniteGrid<
     const CACHED_EXTENTS: bool,
     const INCLUDE_EMPTY: bool = false,
 > {
-    map: HashMap<Coord, Data>,
+    map: FxHashMap<Coord, Data>,
     min: Option<Coord>,
     max: Option<Coord>,
 }
@@ -129,7 +129,7 @@ impl<
         // Include empty makes no sense if we aren't caching
         debug_assert!(CACHED_EXTENTS || !INCLUDE_EMPTY);
         let mut grid = Self {
-            map: HashMap::new(),
+            map: FxHashMap::default(),
             min: None,
             max: None,
         };
@@ -276,6 +276,23 @@ impl SignedCoordinate {
             Facing::East => self.east(amount),
             Facing::South => self.south(amount),
             Facing::West => self.west(amount),
+        }
+    }
+
+    pub gen fn neighbours<const INCLUDE_DIAGONAL: bool>(&self) -> SignedCoordinate {
+        if INCLUDE_DIAGONAL {
+            for y in -1..=1 {
+                for x in -1..=1 {
+                    if x != 0 || y != 0 {
+                        yield SignedCoordinate::new(self.x + x, self.y + y);
+                    }
+                }
+            }
+        } else {
+            yield self.north(1);
+            yield self.west(1);
+            yield self.east(1);
+            yield self.south(1);
         }
     }
 }
