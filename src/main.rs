@@ -24,7 +24,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
-// mod day7;
+mod day7;
 // mod day8;
 // mod day9;
 
@@ -59,7 +59,7 @@ fn main() {
         Day::Combined(day4::main).run("day 4");
         Day::Combined(day5::main).run("day 5");
         Day::Combined(day6::main).run("day 6");
-        // Day::Combined(day7::main).run("day 7");
+        Day::Combined(day7::main).run("day 7");
         // Day::Combined(day8::main).run("day 8");
         // Day::Combined(day9::main).run("day 9");
         // Day::Combined(day10::main).run("day 10");
